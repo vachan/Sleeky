@@ -23,6 +23,14 @@ define('favicon', '/assets/img/favicon.ico');
 define('logo', '/assets/img/logo-black.png');
 
 
+// ReCaptcha
+
+// Public Key - Obtain from here: https://www.google.com/recaptcha/admin
+define('publicKey', '6LfbghQTAAAAAMXE4Cipk44LYqH4S7Ds-aIpG5KE');
+
+// Secret Key - Obtain from here: https://www.google.com/recaptcha/admin
+define('secret', '6LfbghQTAAAAAG-tcIfwTv00dvw_Ehi1Be_HdA_G');
+
 // FOOTER
 
 // These are the links in the footer. Add a new link for each new link.

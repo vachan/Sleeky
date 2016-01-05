@@ -14,19 +14,13 @@
 	}
 	});
 
-	$( "#close" ).click(function() {
-		console.log("yep")
-	  $( "#error" ).fadeOut( "slow", function() {
-	    // Animation complete.
-	  });
-	});
 
 	$( "#submit" ).click(function() {
 		console.log("yep")
-	  	$('.g-recaptcha').fadeIn(1000);
-	  	$('.shorten').fadeIn(1000);
-	  	$('.url').fadeOut(1000);
-	  	$('#submit').fadeOut(1000);
+	  	$('.url').fadeOut(500);
+	  	$('#submit').fadeOut(500)
+	  	$('.g-recaptcha').delay(500).fadeIn(500);
+	  	$('.shorten').delay(500).fadeIn(500);
 	});
 
 </script>

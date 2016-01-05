@@ -18,6 +18,7 @@
         echo "Hi " . $_POST["name"] . " (" . $_POST["email"] . "), thanks for submitting the form!";
     } else {
         $errors = $resp->getErrorCodes();
+        echo "$errors";
     }
   } else {
     echo 'You did not fill all form!';

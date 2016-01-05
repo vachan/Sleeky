@@ -1,18 +1,14 @@
 <?php
 include 'header.php';
 
-// TEMP
-// grab recaptcha library
+// Get recaptcha library
 require('recaptcha/autoload.php');
-
-// your secret key
-$secret = "6LfbghQTAAAAAG-tcIfwTv00dvw_Ehi1Be_HdA_G";
 
 // empty response
 $response = null;
 
-// init 
-$reCaptcha = new \ReCaptcha\ReCaptcha($secret);
+// init the recaptcha
+$reCaptcha = new \ReCaptcha\ReCaptcha(secret);
 
 // if submitted check response
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -22,13 +18,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $captcha = true;
     } else {
         $errors = $resp->getErrorCodes();
+        if (in_array("invalid-input-secret", $errors)) {
+		    $captcha_error = "please make sure your Captcha secret is correct";
+		}
+		else {
+			$captcha_error = $errors;
+		}
     }
   } else {
-    $captcha_error = "Please make sure URL & captcha is filled out.";
+    $captcha_error = "please make sure URL & Captcha is filled out";
   }
  }
-
-// END TEMP
 
 ?>
 
@@ -72,13 +72,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <!-- YOURLS errors -->
 <?php if ( isset( $_REQUEST['url'] ) && $_REQUEST['url'] != 'http://' ): ?>
    <?php  if (strpos($message,'added') === false): ?>
-	    <div id="error" class="alert alert-warning error" role="alert"><h5>Oh no, <?php echo $message; ?>!</h5><a id="close" class="close" href="#"><i class="fa fa-times fa-2x spin"></i></a></div>	    
+	    <div id="error" class="alert alert-warning error" role="alert"><h5>Oh no, <?php echo $message; ?>!</h5></div>	    
 	<?php endif; ?>
 <?php endif; ?>
 
 <!-- Captcha errors -->
 <?php  if (isset($captcha_error)): ?>
-    <div id="error" class="alert alert-warning error" role="alert"><h5>Oh no, <?php echo $captcha_error; ?>!</h5><a id="close" class="close" href="#"><i class="fa fa-times fa-2x spin"></i></a></div>	    
+    <div id="error" class="alert alert-warning error" role="alert"><h5>Oh no, <?php echo $captcha_error; ?>!</h5></div>	    
 <?php endif; ?>
 
 
@@ -128,8 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 			<form method="post" action="">
 				<input type="text" name="url" class="url" placeholder="PASTE URL, SHORTEN &amp; SHARE">
 				<button type="button" id="submit" class="submit">Shorten</button>
+				<center>
+				<div class="g-recaptcha" style="display:none;" data-sitekey="<?php echo publicKey ?>"></div>
 				<input type="submit" value="Shorten" class="shorten" style="display:none;">
-				<center><div class="g-recaptcha" style="display:none;" data-sitekey="6LfbghQTAAAAAMXE4Cipk44LYqH4S7Ds-aIpG5KE"></div></center>
+				</center>
 			</form>
 			</section>
 			<section class="footer">
