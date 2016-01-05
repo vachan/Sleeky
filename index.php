@@ -1,8 +1,6 @@
 <?php
 include 'header.php';
 
-var_dump($_POST);
-
 // TEMP
 // grab recaptcha library
 require('recaptcha/autoload.php');
@@ -17,16 +15,18 @@ $response = null;
 $reCaptcha = new \ReCaptcha\ReCaptcha($secret);
 
 // if submitted check response
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   if ($_POST["g-recaptcha-response"] && $_POST["url"]) {
     $resp = $reCaptcha->verify($_POST["g-recaptcha-response"], $_SERVER["REMOTE_ADDR"]);
     if ($resp->isSuccess()) {
-        echo "ALL GOOD";
+        $captcha = true;
     } else {
         $errors = $resp->getErrorCodes();
     }
   } else {
-    echo 'NOT ALL GOOD';
+    $captcha_error = "Please make sure URL & captcha is filled out.";
   }
+ }
 
 // END TEMP
 
@@ -69,14 +69,21 @@ $reCaptcha = new \ReCaptcha\ReCaptcha($secret);
 	}
 ?>
 
+<!-- YOURLS errors -->
 <?php if ( isset( $_REQUEST['url'] ) && $_REQUEST['url'] != 'http://' ): ?>
    <?php  if (strpos($message,'added') === false): ?>
 	    <div id="error" class="alert alert-warning error" role="alert"><h5>Oh no, <?php echo $message; ?>!</h5><a id="close" class="close" href="#"><i class="fa fa-times fa-2x spin"></i></a></div>	    
 	<?php endif; ?>
 <?php endif; ?>
 
+<!-- Captcha errors -->
+<?php  if (isset($captcha_error)): ?>
+    <div id="error" class="alert alert-warning error" role="alert"><h5>Oh no, <?php echo $captcha_error; ?>!</h5><a id="close" class="close" href="#"><i class="fa fa-times fa-2x spin"></i></a></div>	    
+<?php endif; ?>
+
+
 	
-<?php if( $status == 'success' ):  ?>
+<?php if( $status == 'success' && $captcha == true ):  ?>
 
 	<?php $url = preg_replace("(^https?://)", "", $shorturl );  ?>
 
@@ -120,8 +127,9 @@ $reCaptcha = new \ReCaptcha\ReCaptcha($secret);
 			<section class="field-section">
 			<form method="post" action="">
 				<input type="text" name="url" class="url" placeholder="PASTE URL, SHORTEN &amp; SHARE">
-				<div class="g-recaptcha" data-sitekey="6LfbghQTAAAAAMXE4Cipk44LYqH4S7Ds-aIpG5KE"></div>
-				<input type="submit" value="Shorten">
+				<button type="button" id="submit" class="submit">Shorten</button>
+				<input type="submit" value="Shorten" class="shorten" style="display:none;">
+				<center><div class="g-recaptcha" style="display:none;" data-sitekey="6LfbghQTAAAAAMXE4Cipk44LYqH4S7Ds-aIpG5KE"></div></center>
 			</form>
 			</section>
 			<section class="footer">
