@@ -1,5 +1,21 @@
 <?php
 include 'header.php';
+
+// TEMP
+// grab recaptcha library
+require('recaptcha/autoload.php');
+
+// your secret key
+$secret = "6LfbghQTAAAAAG-tcIfwTv00dvw_Ehi1Be_HdA_G";
+
+// empty response
+$response = null;
+
+// init 
+$reCaptcha = new \ReCaptcha\ReCaptcha($secret);
+
+// END TEMP
+
 ?>
 
 <body>
@@ -90,6 +106,7 @@ include 'header.php';
 			<section class="field-section">
 			<form method="post" action="">
 				<input type="text" name="url" class="url" placeholder="PASTE URL, SHORTEN &amp; SHARE">
+				<div class="g-recaptcha" data-sitekey="6LfbghQTAAAAAMXE4Cipk44LYqH4S7Ds-aIpG5KE"></div>
 				<input type="submit" value="Shorten">
 			</form>
 			</section>
@@ -104,8 +121,6 @@ include 'header.php';
 		</div>
 	</div>
 <?php endif; ?>
-</body>
-</html>
 <?php
 include 'footer.php';
 ?>

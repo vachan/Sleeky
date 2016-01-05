@@ -1,3 +1,5 @@
+<script src='https://www.google.com/recaptcha/api.js'></script>
+
 <script>
 	$(document).ready(function() {
 	$('body').css('display', 'none');
@@ -19,3 +21,6 @@
 	  });
 	});
 </script>
+
+</body>
+</html>
