@@ -1,6 +1,8 @@
 <?php
 include 'header.php';
 
+var_dump($_POST);
+
 // TEMP
 // grab recaptcha library
 require('recaptcha/autoload.php');
@@ -13,6 +15,18 @@ $response = null;
 
 // init 
 $reCaptcha = new \ReCaptcha\ReCaptcha($secret);
+
+// if submitted check response
+  if ($_POST["g-recaptcha-response"] && $_POST["url"]) {
+    $resp = $reCaptcha->verify($_POST["g-recaptcha-response"], $_SERVER["REMOTE_ADDR"]);
+    if ($resp->isSuccess()) {
+        echo "ALL GOOD";
+    } else {
+        $errors = $resp->getErrorCodes();
+    }
+  } else {
+    echo 'NOT ALL GOOD';
+  }
 
 // END TEMP
 
