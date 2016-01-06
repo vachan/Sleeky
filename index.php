@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 		    $captcha_error = "please make sure your Captcha secret is correct";
 		}
 		else {
-			$captcha_error = $errors;
+			$captcha_error = var_dump($errors);
 		}
     }
   } else {
